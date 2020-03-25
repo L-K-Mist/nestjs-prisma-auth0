@@ -11,7 +11,6 @@ import {
 import { UseGuards } from '@nestjs/common';
 import { UserEntity } from '../../decorators/user.decorator';
 import { User } from './../../models/user';
-import { ChangePasswordInput } from './dto/change-password.input';
 import { UserService } from 'src/services/user.service';
 import { UpdateUserInput } from './dto/update-user.input';
 
@@ -36,19 +35,6 @@ export class UserResolver {
   ) {
     return this.userService.updateUser(user.id, newUserData);
   }
-  //DELETE commented code when safe
-  // @UseGuards(GqlAuthGuard)
-  // @Mutation(returns => User)
-  // async changePassword(
-  //   @UserEntity() user: User,
-  //   @Args('data') changePassword: ChangePasswordInput
-  // ) {
-  //   return this.userService.changePassword(
-  //     user.id,
-  //     user.password,
-  //     changePassword
-  //   );
-  // }
 
   @ResolveProperty('posts')
   posts(@Parent() author: User) {

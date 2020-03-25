@@ -3,12 +3,6 @@
 # !!!   DO NOT MODIFY THIS FILE BY YOURSELF   !!!
 # -----------------------------------------------
 
-type Auth {
-  """JWT Bearer token"""
-  token: String!
-  user: User!
-}
-
 """Date custom scalar type"""
 scalar Date
 
