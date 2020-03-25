@@ -9,24 +9,11 @@ type Auth {
   user: User!
 }
 
-input ChangePasswordInput {
-  oldPassword: String!
-  newPassword: String!
-}
-
 """Date custom scalar type"""
 scalar Date
 
-input LoginInput {
-  email: String!
-  password: String!
-}
-
 type Mutation {
-  signup(data: SignupInput!): Auth!
-  login(data: LoginInput!): Auth!
   updateUser(data: UpdateUserInput!): User!
-  changePassword(data: ChangePasswordInput!): User!
 }
 
 """
@@ -95,13 +82,6 @@ enum Role {
   USER
 }
 
-input SignupInput {
-  email: String!
-  password: String!
-  firstname: String
-  lastname: String
-}
-
 input UpdateUserInput {
   firstname: String
   lastname: String
@@ -114,6 +94,7 @@ type User {
   email: String!
   firstname: String
   lastname: String
+  sub: String
   role: Role!
   posts: [Post!]!
 }

@@ -27,11 +27,43 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     });
   }
   // Validation is actually already handled for us by Auth0, so here we now just pipe through the validated token.
-  validate(payload: any) {
-    console.log('JwtStrategy -> validate -> payload', payload);
-    return payload;
-  }
 
+  /** From the Tutorial
+   * ===================
+   * By the time your application calls validate(), Auth0 has already determined the identity of the logged-in user and passes data about that user within the payload object.
+   */
+
+  /**
+Shape of payload is:
+
+payload {
+iss: 'https://nestjs-prisma.eu.auth0.com/',
+sub: 'auth0|5e79c74bdc707d0c6cd65ff1',
+aud: [
+  'https://nestjs-api.com',
+  'https://nestjs-prisma.eu.auth0.com/userinfo'
+],
+iat: 1585039189,
+exp: 1585125589,
+azp: 'ubyRjuA2Kxjtf7PYgiilKL6OtoFSZM4X',
+scope: 'openid profile email'
+}
+*/
+  async validate(payload: any) {
+    console.log('JwtStrategy -> validate -> payload', payload);
+    // Check if we have this user's email on record
+    payload.email = payload['https://nestjs-api.com/email'];
+    const user = await this.authService.findUserByEmail(payload.email);
+    console.log('JwtStrategy -> validate -> user', user);
+    // If not, create a user
+    if (!user) {
+      const newUser = await this.authService.createUser(payload);
+      console.log('JwtStrategy -> validate -> newUser', newUser);
+      // TODO add firstname and lastname after minimalist works.
+      return newUser;
+    }
+    return user;
+  }
   // async validate(payload: JwtDto): Promise<User> {
   //   const user = await this.authService.validateUser(payload.userId);
   //   if (!user) {
