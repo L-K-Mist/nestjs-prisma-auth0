@@ -3,14 +3,10 @@ import { passportJwtSecret } from 'jwks-rsa';
 import { PassportStrategy } from '@nestjs/passport';
 import { Injectable } from '@nestjs/common';
 import { AuthService } from '../../services/auth.service';
-import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
-  constructor(
-    private readonly authService: AuthService,
-    readonly configService: ConfigService
-  ) {
+  constructor(private readonly authService: AuthService) {
     super({
       secretOrKeyProvider: passportJwtSecret({
         cache: true,
@@ -70,16 +66,17 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
         };
       }, {});
     };
-    // TODO Make a more sensible objet with email: my@email.com etc. ie. Get rid of the Auth0 name-spacing
+    // TODO Make a more sensible objeCt with email: my@email.com etc. ie. Get rid of the Auth0 name-spacing
     payload = renameKeys(
       {
-        'https://nestjs-api.com/email': 'email',
-        'https://nestjs-api.com/firstname': 'firstname',
-        'https://nestjs-api.com/lastname': 'lastname',
+        [`${process.env.AUTH0_AUDIENCE}/email`]: 'email',
+        [`${process.env.AUTH0_AUDIENCE}/firstname`]: 'firstname',
+        [`${process.env.AUTH0_AUDIENCE}/lastname`]: 'lastname',
       },
       payload
     );
     console.log('JwtStrategy -> validate -> payload', payload);
+    console.log(process.env.AUTH0_AUDIENCE);
     // Check if we have this user's email on record
     const user = await this.authService.findUserByEmail(payload.email);
     console.log('JwtStrategy -> validate -> user', user);

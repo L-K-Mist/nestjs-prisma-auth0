@@ -25,7 +25,6 @@ export class AuthService {
       throw new ConflictException(`Email ${email} already used.`);
     }
   }
-
   findUserByEmail(email: string): Promise<User> {
     return this.prisma.user.findOne({ where: { email } });
   }
