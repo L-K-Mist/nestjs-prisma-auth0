@@ -2,7 +2,7 @@ import { PrismaService } from './../../services/prisma.service';
 import { PasswordService } from './../../services/password.service';
 import { GqlAuthGuard } from '../../guards/gql-auth.guard';
 import { AuthService } from '../../services/auth.service';
-import { AuthResolver } from './auth.resolver';
+// import { AuthResolver } from './auth.resolver';
 import { Module } from '@nestjs/common';
 import { JwtModule } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
@@ -14,19 +14,19 @@ import { ConfigService } from '@nestjs/config';
     PassportModule.register({ defaultStrategy: 'jwt' }),
     JwtModule.registerAsync({
       useFactory: async (configService: ConfigService) => ({
-        secret: configService.get('JWT_SECRET')
+        secret: configService.get('JWT_SECRET'),
       }),
-      inject: [ConfigService]
-    })
+      inject: [ConfigService],
+    }),
   ],
   providers: [
     AuthService,
-    AuthResolver,
+    // AuthResolver,
     JwtStrategy,
     GqlAuthGuard,
     PasswordService,
-    PrismaService
+    PrismaService,
   ],
-  exports: [GqlAuthGuard]
+  exports: [GqlAuthGuard],
 })
 export class AuthModule {}

@@ -1,11 +1,11 @@
 // datasource db {
 //   provider = "postgresql"
-//   url      = env("POSTGRESQL_URL")
+//   url = "***"
 // }
 
 datasource db {
   provider = "sqlite"
-  url      = "sqlite:./dev.db"
+  url = "***"
 }
 
 generator client {
@@ -17,11 +17,11 @@ model User {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   email     String   @unique
+  password  String
   firstname String?
   lastname  String?
-  sub       String
   posts     Post[]
-  role      Role     @default(USER)
+  role      Role
 }
 
 model Post {
