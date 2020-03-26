@@ -25,6 +25,9 @@ RUN npm audit fix
 COPY tsconfig*.json ./
 COPY src ./src
 
+RUN npm run migrate:save
+RUN npm run migrate:up
+RUN npm run prisma:generate
 RUN npm run build
 
 # TODO use node-alpine when supported by prisma2 https://github.com/prisma/prisma2/issues/702
@@ -33,8 +36,6 @@ COPY --from=builder /app/node_modules ./node_modules
 COPY --from=builder /app/package*.json ./
 COPY --from=builder /app/dist ./dist
 EXPOSE 3000
-RUN npx prisma2 migrate save --experimental
-RUN npx prisma2 migrate up --experimental
 CMD ["npm", "run", "start:prod" ]
 # CMD ["npx", "prisma2", "migrate", "save", "--experimental;"]
 # CMD ["npx", "prisma2", "migrate", "up", "--experimental"]
