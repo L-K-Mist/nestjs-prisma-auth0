@@ -1,7 +1,7 @@
 # Instructions
 
 Starter template for 😻 [nest](https://nestjs.com/) and [Prisma](https://www.prisma.io/).
-Based on the excellent fivethree-team/nestjs-prisma-starter. Here we assume you are already familiar with that codebase, and want to add Auth0 and it's Social Login implimentation to your application. 
+Based on the excellent [nestjs-prisma-starter](https://github.com/fivethree-team/nestjs-prisma-starter). Here we assume you are already familiar with that codebase, and want to add Auth0 - and it's Social Login implimentation - to your application. 
 
 
 ## Features
@@ -21,24 +21,41 @@ Mostly the same as the nestjs-prisma-starter; except:
 
 
 
-### 4. Make sure your .env file includes Auth0 configs
+### Make sure your .env file includes Auth0 configs
 
 See .env.example for details.
 
 
 
-## Playground
+### Playground
 
 The main test of the Auth0 functionality will come through executing the me query with the Auth0 token, generated and shared to some frontend application.
 
 For this you need a frontend app that logs in, receives that Bearer token and attaches it to each request.
-
-
 
 ```
 {
   "Authorization" : "Bearer YOURTOKEN"
 }
 ```
+
+### Auth0 Rule
+
+Here's an example rule that pulls email, firstname and lastname form the Social Login Profile, and adds it to the Access Token; to be used in src/resolvers/auth/jwt.strategy.ts
+
+```
+function (user, context, callback) {
+    const namespace = 'https://nestjs-api.com/';
+    context.accessToken[namespace + 'email'] = user.email;
+    context.accessToken[namespace + 'firstname'] = user.given_name;
+    context.accessToken[namespace + 'lastname'] = user.family_name;
+  return callback(null, user, context);
+}
+```
+Note: the namespace is required, is not a real link, and you'll probably want to create your own one.
+In this case we chose to make it the same as the AUTH0_AUDIENCE, so that the validate method in src/resolvers/auth/jwt.strategy.ts knows what to expect.
+
+
+
 
 
