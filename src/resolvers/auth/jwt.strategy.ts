@@ -1,4 +1,5 @@
 import { Strategy, ExtractJwt } from 'passport-jwt';
+// The use of jwks-rsa replaces the need for @nest/jwt
 import { passportJwtSecret } from 'jwks-rsa';
 import { PassportStrategy } from '@nestjs/passport';
 import { Injectable } from '@nestjs/common';
@@ -50,7 +51,8 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
       scope: 'openid profile email'
     }
     */
-
+    // TODO move renameKeys function out of here.
+    // QUESTION where is the right place to put helper functions like these?  Are they all services, even for array/object manipulation?
     // Rename object keys "from": "to".  Thanks: https://medium.com/free-code-camp/30-seconds-of-code-rename-many-object-keys-in-javascript-268f279c7bfa
     const renameKeys = (keysMap, obj) => {
       debugger;
@@ -66,7 +68,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
         };
       }, {});
     };
-    // TODO Make a more sensible objeCt with email: my@email.com etc. ie. Get rid of the Auth0 name-spacing
+    // Get rid of Auth0 namespacings on the claims, that come via the Auth0 middleware rule.
     payload = renameKeys(
       {
         [`${process.env.AUTH0_AUDIENCE}/email`]: 'email',
