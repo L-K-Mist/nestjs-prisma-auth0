@@ -43,7 +43,7 @@ For this you need a frontend app that logs in, receives that Bearer token and at
 
 ### Auth0 Rule
 
-Here's an example rule that pulls email, firstname and lastname form the Social Login Profile, and adds it to the Access Token; to be used in src/resolvers/auth/jwt.strategy.ts
+Here's an example Auth0 rule that pulls email, firstname and lastname form the Social Login Profile, and adds it to the Access Token. 
 
 ```
 function (user, context, callback) {
@@ -54,6 +54,8 @@ function (user, context, callback) {
   return callback(null, user, context);
 }
 ```
+The server can then extract this info to know who the active user is.
+
 Note: the namespace is required, is not a real link, and you'll probably want to create your own one.
 In this case we chose to make it the same as the AUTH0_AUDIENCE, so that the validate method in src/resolvers/auth/jwt.strategy.ts knows what to expect.
 
