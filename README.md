@@ -11,7 +11,7 @@ If you are familiar with the starter, then most of the changes here happened in 
 - GraphQL w/ [playground](https://github.com/prisma/graphql-playground)
 - Code-First w/ [type-graphql](https://github.com/19majkel94/type-graphql)
 - [Prisma](https://www.prisma.io/) for database modelling, migration and type-safe access (Postgres, MySQL & MongoDB)
-- 🔐 Auth0 authentication based on the following How-To (but tweaked for graphQL instead of REST) w/ [passport-jwt](https://auth0.com/blog/developing-a-secure-api-with-nestjs-adding-authorization/)
+- 🔐 Auth0 authentication based on the following How-To (but tweaked for graphQL instead of REST) w/ [Auth0 with NestJs](https://auth0.com/blog/developing-a-secure-api-with-nestjs-adding-authorization/)
 
 
 ## Overview
