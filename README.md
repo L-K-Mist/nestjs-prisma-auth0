@@ -3,13 +3,15 @@
 Starter template for 😻 [nest](https://nestjs.com/) and [Prisma](https://www.prisma.io/).
 Based on the excellent [nestjs-prisma-starter](https://github.com/fivethree-team/nestjs-prisma-starter). Here we assume you are already familiar with that codebase, and want to add Auth0 - and it's Social Login implimentation - to your application. 
 
+If you are familiar with the starter, then most of the changes here happened in [resolvers/auth/jwt.strategy.ts.](https://github.com/L-K-Mist/nestjs-prisma-auth0/blob/master/src/resolvers/auth/jwt.strategy.ts)
+
 
 ## Features
 
 - GraphQL w/ [playground](https://github.com/prisma/graphql-playground)
 - Code-First w/ [type-graphql](https://github.com/19majkel94/type-graphql)
 - [Prisma](https://www.prisma.io/) for database modelling, migration and type-safe access (Postgres, MySQL & MongoDB)
-- 🔐 Auth0 authentication based on the following How-To (but tweaked for graphQL instead of REST) w/ [passport-jwt](https://auth0.com/blog/developing-a-secure-api-with-nestjs-adding-authorization/)
+- 🔐 Auth0 authentication based on the following How-To (but tweaked for graphQL instead of REST) w/ [Auth0 with NestJs](https://auth0.com/blog/developing-a-secure-api-with-nestjs-adding-authorization/)
 
 
 ## Overview
@@ -41,7 +43,7 @@ For this you need a frontend app that logs in, receives that Bearer token and at
 
 ### Auth0 Rule
 
-Here's an example rule that pulls email, firstname and lastname form the Social Login Profile, and adds it to the Access Token; to be used in src/resolvers/auth/jwt.strategy.ts
+Here's an example Auth0 rule that pulls email, firstname and lastname form the Social Login Profile, and adds it to the Access Token. 
 
 ```
 function (user, context, callback) {
@@ -52,6 +54,8 @@ function (user, context, callback) {
   return callback(null, user, context);
 }
 ```
+The server can then extract this info to know who the active user is.
+
 Note: the namespace is required, is not a real link, and you'll probably want to create your own one.
 In this case we chose to make it the same as the AUTH0_AUDIENCE, so that the validate method in src/resolvers/auth/jwt.strategy.ts knows what to expect.
 
