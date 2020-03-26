@@ -1,6 +1,5 @@
 import { Injectable, ConflictException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { PasswordService } from './password.service';
 import { PrismaService } from './prisma.service';
 import { User } from '@prisma/client';
 
@@ -8,8 +7,7 @@ import { User } from '@prisma/client';
 export class AuthService {
   constructor(
     private readonly jwtService: JwtService,
-    private readonly prisma: PrismaService,
-    private readonly passwordService: PasswordService
+    private readonly prisma: PrismaService
   ) {}
   async createUser(payload: User): Promise<User> {
     const { email, sub, firstname, lastname } = payload;

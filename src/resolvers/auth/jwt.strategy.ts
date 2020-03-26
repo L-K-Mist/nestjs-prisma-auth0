@@ -54,7 +54,8 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
       scope: 'openid profile email'
     }
     */
-    // TODO find out where to put helper-functions like these
+
+    // Rename object keys "from": "to".  Thanks: https://medium.com/free-code-camp/30-seconds-of-code-rename-many-object-keys-in-javascript-268f279c7bfa
     const renameKeys = (keysMap, obj) => {
       debugger;
       return Object.keys(obj).reduce((acc, key) => {
