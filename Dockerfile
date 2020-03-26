@@ -7,8 +7,9 @@ RUN apt-get update \
 # Create app directory
 WORKDIR /app
 
-ARG POSTGRESQL_URL
-ENV POSTGRESQL_URL "$POSTGRESQL_URL"
+# Commenting these out because we're going with a local instance of sqlLite
+# ARG POSTGRESQL_URL
+# ENV POSTGRESQL_URL "$POSTGRESQL_URL"
 
 RUN npm install -g prisma2 --unsafe-perm
 
@@ -31,4 +32,6 @@ COPY --from=builder /app/node_modules ./node_modules
 COPY --from=builder /app/package*.json ./
 COPY --from=builder /app/dist ./dist
 EXPOSE 3000
-CMD [ "npm", "run", "start:prod" ]
+CMD [ "npx", "prisma2", "migrate", "save", "--experimental; ", "npx", "prisma2", "migrate", "up", "--experimental; " , "npm", "run", "start:prod" ]
+# CMD ["npx", "prisma2", "migrate", "save", "--experimental;"]
+# CMD ["npx", "prisma2", "migrate", "up", "--experimental"]
