@@ -3,6 +3,8 @@
 Starter template for 😻 [nest](https://nestjs.com/) and [Prisma](https://www.prisma.io/).
 Based on the excellent [nestjs-prisma-starter](https://github.com/fivethree-team/nestjs-prisma-starter). Here we assume you are already familiar with that codebase, and want to add Auth0 - and it's Social Login implimentation - to your application. 
 
+If you are familiar with the starter, then most of the changes here happened in src/resolvers/auth/jwt.strategy.ts.
+
 
 ## Features
 
